@@ -1,0 +1,51 @@
+<template>
+  <div class="p-5">
+    <div class="grid grid-cols-2 mt-5 gap-10">
+      <div class="w-full h-full">
+        <h3 class="mb-2 text-xl text-center">
+          درآمد شما در سال های گذشته بر حسب دلار
+        </h3>
+        <BarChart></BarChart>
+      </div>
+      <div class="m-auto">
+        <h3 class="mb-2 text-xl text-center">
+          هزینه های شما در این ماه بر حسب دلار
+        </h3>
+        <DoughnatChart></DoughnatChart>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script>
+import { inject, ref } from 'vue'
+import { Tippy } from 'vue-tippy'
+import BarChart from '../components/BarChart.vue'
+import DoughnatChart from '../components/DoughnatChart.vue'
+
+export default {
+  components: { Tippy, BarChart, DoughnatChart },
+  setup () {
+    let userData = inject('userData')
+    function kir () {
+      fetch(
+        `https://thermopay-174f7-default-rtdb.firebaseio.com/user/-OFgZAxJZ2Rq8XIdLOB8.json`,
+        {
+          method: 'PATCH',
+          headers: {
+            'content-type': 'application/json'
+          },
+          body: JSON.stringify({
+            income: {
+              2019: 25000,
+              2020: 27000,
+              2021: 15000
+            }
+          })
+        }
+      )
+    }
+    return { userData, kir }
+  }
+}
+</script>

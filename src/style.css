@@ -1,0 +1,20 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+    font-family: "Rubik", serif;
+}
+
+:root {
+    --primary: #22C55E;
+    --primaryHover: #29a456;
+}
+
+.btn {
+    @apply rounded-full outline-none
+}
+
+.btn-primary {
+    @apply bg-primary border-none hover:bg-primaryHover
+}
