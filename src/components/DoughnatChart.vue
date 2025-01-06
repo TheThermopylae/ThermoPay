@@ -5,7 +5,7 @@
 <script>
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js'
 import { Doughnut } from 'vue-chartjs'
-import { ref, computed, inject } from 'vue'
+import { ref, computed, inject, nextTick } from 'vue'
 ChartJS.register(ArcElement, Tooltip, Legend)
 
 export default {
@@ -87,22 +87,47 @@ export default {
 
       return sum
     })
+    let data = computed(() => {
+      nextTick(() => ({
+        labels: categories,
+        datasets: [
+          {
+            backgroundColor: [
+              '#f87979',
+              '#79f879',
+              '#7979f8',
+              '#f8e479',
+              '#79e4f8',
+              '#f879e4'
+            ],
+            data: [internetCosts, travel, fun, car, house, other]
+          }
+        ]
+      }))
 
-    let data = ref({
-      labels: categories,
-      datasets: [
-        {
-          backgroundColor: [
-            '#f87979',
-            '#79f879',
-            '#7979f8',
-            '#f8e479',
-            '#79e4f8',
-            '#f879e4',
-          ],
-          data: [internetCosts, travel, fun, car, house, other]
-        }
-      ]
+      return {
+        labels: categories,
+        datasets: [
+          {
+            backgroundColor: [
+              '#f87979',
+              '#79f879',
+              '#7979f8',
+              '#f8e479',
+              '#79e4f8',
+              '#f879e4'
+            ],
+            data: [
+              internetCosts.value,
+              travel.value,
+              fun.value,
+              car.value,
+              house.value,
+              other.value
+            ]
+          }
+        ]
+      }
     })
 
     const options = computed(() => ({
