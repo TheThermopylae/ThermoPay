@@ -61,47 +61,31 @@
 import { inject, reactive, ref } from 'vue'
 import LoadingSpinner from './LoadingSpinner.vue'
 import ShowAlert from '../hooks/ShowAlert'
+import IncomeValidate from '../hooks/IncomeValidate'
+
 export default {
   components: {
     LoadingSpinner
   },
   props: ['income'],
   setup (props, { emit }) {
-    let loading = ref(false)
-    let getIncomes = inject('getIncomes')
-
     let data = reactive({
       year: props.income[1].year,
       value: props.income[1].value
     })
 
-    const showAlert = ShowAlert()
+    const [checkValdiate, loading] = IncomeValidate()
 
     function updateIncomeFunc () {
-      if (!data.year || !data.value)
-        showAlert('تمامی فیلد هارا پر کنید!', 'info', 'rgb(68, 68, 240)')
-      else {
-        loading.value = true
-        fetch(
-          `https://thermopay-174f7-default-rtdb.firebaseio.com/incomes/${props.income[0]}.json`,
-          {
-            method: 'PATCH',
-            headers: {
-              'content-type': 'application/json'
-            },
-            body: JSON.stringify({ year: data.year, value: data.value })
-          }
-        )
-          .then(() => {
-            showAlert('بروزرسانی با موفقیت انجام شد!', 'success', '#22C55E')
-            getIncomes()
-          })
-          .catch(() => showAlert('عدم برقراری ارتباط با سرور!', 'error', 'red'))
-          .finally(() => {
-            loading.value = false
-            emit('closeModal')
-          })
-      }
+      checkValdiate(
+        `https://thermopay-174f7-default-rtdb.firebaseio.com/incomes/${props.income[0]}.json`,
+        data,
+        'PATCH',
+        { year: data.year, value: data.value },
+        'ویرایش درآمد شما با موفقیت انجام شد!',
+        'عدم برقراری ارتباط با سرور!',
+        emit
+      )
     }
     return { loading, updateIncomeFunc, data }
   }

@@ -1,7 +1,6 @@
 <template>
   <div class="flex justify-between mt-5 items-end gap-5">
     <div>
-      <button>kir</button>
       <h2 class="text-xl mt-3">
         درامد سالانه شما :
         <span class="text-green-500"

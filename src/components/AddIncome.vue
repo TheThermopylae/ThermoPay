@@ -30,11 +30,12 @@
 import { inject, reactive, ref, watch } from 'vue'
 import ShowAlert from '../hooks/ShowAlert'
 import LoadingSpinner from './LoadingSpinner.vue'
+import IncomeValidate from '../hooks/IncomeValidate'
+
 export default {
   components: { LoadingSpinner },
   setup () {
     let userData = inject('userData')
-    let getIncomes = inject('getIncomes')
 
     let incomeData = reactive({
       for: userData.value.name,
@@ -42,40 +43,14 @@ export default {
       value: ''
     })
 
-    watch(userData ,()=>{
-        incomeData.for = userData.value.name
+    watch(userData, () => {
+      incomeData.for = userData.value.name
     })
 
-    const showAlert = ShowAlert()
-
-    let loading = ref(false)
+    let [checkValidate,loading] = IncomeValidate()
 
     function addIncome () {
-      if (!incomeData.year || !incomeData.value)
-        showAlert('لطفا فیلد هارا پر کنید!', 'info', 'rgb(68, 68, 240)')
-      else {
-        loading.value = true
-        fetch(
-          `https://thermopay-174f7-default-rtdb.firebaseio.com/incomes.json`,
-          {
-            method: 'POST',
-            headers: {
-              'content-type': 'application/json'
-            },
-            body: JSON.stringify(incomeData)
-          }
-        )
-          .then(() => {
-            showAlert(
-              'مورد درآمدی شما با موفقیت اضافه شد!',
-              'success',
-              '#22C55E'
-            )
-            getIncomes()
-          })
-          .catch(() => showAlert('عدم برقراری ارتباط با سرور', 'error', 'red'))
-          .finally(() => (loading.value = false))
-      }
+      checkValidate(`https://thermopay-174f7-default-rtdb.firebaseio.com/incomes.json`,incomeData, 'POST', incomeData,"درآمد شما با موفقیت اضافه شد!","عدم برقراری ارتباط با سرور")
     }
     return { addIncome, incomeData, loading }
   }
