@@ -24,9 +24,11 @@ export default {
     const incomes = inject('incomes')
 
     const userIncomes = computed(() => {
-      return incomes.value.filter(
+      let findIncomes = incomes.value.filter(
         income => income[1].for == userData.value.name
       )
+
+      return findIncomes.slice().sort((a, b) => a[1].year - b[1].year)
     })
 
     let years = computed(() => {
