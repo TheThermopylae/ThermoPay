@@ -8,13 +8,18 @@
       <span class="text-primary" v-if="cost[1].price"
         >{{ cost[1].price.toLocaleString() }}$</span
       >
-      <span v-else class="text-lg">هزینه نامشخص</span>
+      <span v-else>هزینه نامشخص</span>
       <p> {{ cost[1].day }} / {{ cost[1].month + 1 }} / {{ cost[1].year }}</p>
       <div>
         <i
-          class="fa-solid fa-trash cursor-pointer hover:text-red-500 transitin duration-300 ml-3 w-4"
+          class="fa-solid fa-trash cursor-pointer hover:text-red-500 transitin duration-300 w-4"
           v-tippy="'حذف هزینه'"
           @click="$emit('showDeleteModal')"
+        ></i>
+        <i
+          class="fa-solid fa-pen cursor-pointer hover:text-primary transitin duration-300 w-4 mx-4"
+          v-tippy="'ویرایش هزینه'"
+          @click="$emit('showEditCostModal')"
         ></i>
         <i
           class="fa-solid fa-check cursor-pointer hover:text-primary transitin duration-300 w-4"

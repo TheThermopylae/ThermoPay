@@ -3,7 +3,7 @@
     <h1 class="text-4xl font-semibold">محاسبه ی هزینه ها</h1>
     <NowIncome
       @searchCostAccept="searchCostFunc"
-      @openAddCostModal="kir"
+      @openAddCostModal="showAddCostModal = true"
     ></NowIncome>
     <p class="text-center text-xl mt-5" v-if="filterCosts.length === 0">
       مورد هزینه ای وجود ندارد!
@@ -19,6 +19,7 @@
           :cost="item"
           :key="item[0]"
           @showDeleteModal="openDeleteCostModal(item)"
+          @showEditCostModal="openEditCostModal(item)"
         ></CostsCard>
       </div>
       <h3 class="text-xl mt-5 mb-3">پرداخت نشده ها</h3>
@@ -59,6 +60,13 @@
         :cost="targetCost"
       ></DeleteCostModal>
     </Transition>
+    <Transition>
+      <EditCostModal
+        :cost="targetCost"
+        v-if="showEditCostModal"
+        @closeModal="showEditCostModal = false"
+      ></EditCostModal>
+    </Transition>
   </div>
 </template>
 
@@ -68,13 +76,15 @@ import NowIncome from '../components/NowIncome.vue'
 import AddCostModal from '../components/AddCostModal.vue'
 import CostsCard from '../components/CostsCard.vue'
 import DeleteCostModal from '../components/DeleteCostModal.vue'
+import EditCostModal from '../components/EditCostModal.vue'
 
 export default {
   components: {
     NowIncome,
     AddCostModal,
     CostsCard,
-    DeleteCostModal
+    DeleteCostModal,
+    EditCostModal
   },
   setup () {
     let userData = inject('userData')
@@ -125,8 +135,11 @@ export default {
 
     let calcPurchasedCosts = computed(() => calculate(purchasedCosts))
 
-    function kir () {
-      showAddCostModal.value = true
+    let showEditCostModal = ref(false)
+
+    function openEditCostModal (item) {
+      targetCost.value = item
+      showEditCostModal.value = true
     }
 
     return {
@@ -141,7 +154,8 @@ export default {
       searchCostFunc,
       finalCost,
       calcPurchasedCosts,
-      kir
+      showEditCostModal,
+      openEditCostModal
     }
   }
 }
