@@ -1,17 +1,17 @@
 <template>
   <div class="flex justify-between mt-5 items-end gap-5">
     <div>
-      <button @click="kir">kir</button>
+      <button>kir</button>
       <h2 class="text-xl mt-3">
         درامد سالانه شما :
         <span class="text-green-500"
-          >${{ lastYearIncome.toLocaleString() }}</span
+          >${{ lastYearIncome[1].value.toLocaleString() }}</span
         >
       </h2>
       <h2 class="text-xl mt-3">
         درامد ماهانه شما :
         <span class="text-green-500"
-          >${{ Math.round(lastYearIncome / 12).toLocaleString() }}</span
+          >${{ Math.round(lastYearIncome[1].value / 12).toLocaleString() }}</span
         >
       </h2>
     </div>
@@ -46,17 +46,7 @@ export default {
       }
     }
 
-    function kir(){
-      fetch("https://thermopay-174f7-default-rtdb.firebaseio.com/costs.json",{
-        method:"POST",
-        headers:{
-          'content-type':'application/json'
-        },
-        body:JSON.stringify({for:"امیرمهدی برزگر"})
-      })
-    }
-
-    return { lastYearIncome, userData, searchCost,kir }
+    return { lastYearIncome, userData, searchCost }
   }
 }
 </script>

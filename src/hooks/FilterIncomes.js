@@ -9,12 +9,12 @@ export default function FilterIncomes () {
   )
 
   let lastYearIncome = computed(() => {
-    let values = []
+    let date = new Date().getFullYear()
 
-    for (let item of userIncomes.value) {
-      values.push(item[1].value)
-    }
-    return Math.max(...values)
+    let lastYear = userIncomes.value.find(
+      income => income[1].year == date
+    )
+    return lastYear
   })
   return [userIncomes, lastYearIncome]
 }
