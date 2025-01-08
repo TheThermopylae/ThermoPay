@@ -1,5 +1,6 @@
 <template>
   <div class="p-5">
+    <Teleport to="title"> | ویرایش اکانت</Teleport>
     <div class="grid grid-cols-2 gap-5">
       <div>
         <label for="fullname" class="block mb-2 text-xl">

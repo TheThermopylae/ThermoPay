@@ -1,4 +1,5 @@
 <template>
+  <Teleport to="title">ThermoPay</Teleport>
   <Transition>
     <LoadingScreen v-if="showLoadingScreen"></LoadingScreen>
   </Transition>

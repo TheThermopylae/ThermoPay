@@ -1,5 +1,6 @@
 <template>
   <div class="p-5">
+    <Teleport to="title"> | درآمد ها</Teleport>
     <h1 class="text-4xl font-semibold">درآمد شما:</h1>
     <div class="mt-5">
       <AddIncome></AddIncome>

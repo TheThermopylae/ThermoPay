@@ -1,5 +1,7 @@
 <template>
   <div class="p-5 min-h-screen" v-if="lastYearIncome">
+    <Teleport to="title"> | هزینه ها</Teleport>
+
     <h1 class="text-4xl font-semibold">محاسبه ی هزینه ها</h1>
     <NowIncome
       @searchCostAccept="searchCostFunc"
