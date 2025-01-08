@@ -10,7 +10,7 @@
   </router-view>
 </template>
 <script>
-import { onMounted, provide, ref } from 'vue'
+import { onMounted, provide, ref, watch } from 'vue'
 import LoadingScreen from './components/LoadingScreen.vue'
 import ShowAlert from './hooks/ShowAlert'
 import TheHeader from './components/TheHeader.vue'
@@ -25,23 +25,27 @@ export default {
     let costs = ref([])
     let incomes = ref([])
 
-    let apiAdress =
-      'https://thermopay-174f7-default-rtdb.firebaseio.com/user/-OFgZAxJZ2Rq8XIdLOB8.json'
-
     let showLoadingScreen = ref(true)
 
     const showAlert = ShowAlert()
 
-    function getUserData () {
-      fetch(apiAdress)
+    function getUserData (text) {
+      fetch(
+        'https://thermopay-174f7-default-rtdb.firebaseio.com/user/-OFgZAxJZ2Rq8XIdLOB8.json'
+      )
         .then(res => res.json())
         .then(data => {
-          userData.value = data
-          showAlert(
-            `خوش آمدید ${userData.value.name} عزیز`,
-            'success',
-            '#22C55E'
-          )
+          if (!userData.value) {
+            userData.value = data
+            showAlert(
+              `خوش آمدید ${userData.value.name} عزیز`,
+              'success',
+              '#22C55E'
+            )
+          } else {
+            userData.value = data
+            showAlert(text, 'success', '#22C55E')
+          }
         })
         .catch(() => {
           showAlert('عدم برقراری ارتباط با سرور!', 'error', 'rgb(255,0,0)')
@@ -72,12 +76,13 @@ export default {
     }
 
     onMounted(() => {
-      getUserData()
+      getUserData(`خوش آمدید ${userData.value.name} عزیز`)
       getCosts()
       getIncomes()
     })
 
     provide('userData', userData)
+    provide('getUserData', getUserData)
     provide('costs', costs)
     provide('getCosts', getCosts)
     provide('getIncomes', getIncomes)

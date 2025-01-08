@@ -20,10 +20,10 @@
       </router-link>
       <!-- <router-link to="/report-page" class="transition duration-300">
         <i class="fa-solid fa-chart-simple" v-tippy="'گزارش مالی'"></i>
-      </router-link>
-      <router-link to="/" class="transition duration-300">
-        <i class="fa-solid fa-user" v-tippy="'اطلاعات کاربری'"></i>
       </router-link> -->
+      <router-link to="/edit-user" class="transition duration-300">
+        <i class="fa-solid fa-user" v-tippy="'اطلاعات کاربری'"></i>
+      </router-link>
     </div>
   </div>
 </template>

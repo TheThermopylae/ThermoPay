@@ -16,5 +16,5 @@
 }
 
 .btn-primary {
-    @apply bg-primary border-none hover:bg-primaryHover
+    @apply bg-primary border-none hover:bg-primaryHover text-white
 }
