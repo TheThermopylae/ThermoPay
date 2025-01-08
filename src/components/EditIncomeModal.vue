@@ -81,7 +81,7 @@ export default {
         `https://thermopay-174f7-default-rtdb.firebaseio.com/incomes/${props.income[0]}.json`,
         data,
         'PATCH',
-        { year: data.year, value: data.value },
+        { year: data.year, value: Number(data.value) },
         'ویرایش درآمد شما با موفقیت انجام شد!',
         'عدم برقراری ارتباط با سرور!',
         emit

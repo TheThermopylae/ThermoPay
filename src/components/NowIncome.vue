@@ -1,5 +1,5 @@
 <template>
-  <div class="flex justify-between mt-5 items-end gap-5">
+  <div class="flex justify-between mt-5 items-end gap-5" v-if="lastYearIncome">
     <div>
       <h2 class="text-xl mt-3">
         درامد سالانه شما :

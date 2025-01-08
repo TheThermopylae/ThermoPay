@@ -32,7 +32,7 @@ export default function IncomeValidate () {
         'info',
         'rgb(68, 68, 240)'
       )
-    else if (someYear.value)
+    else if (method !== 'PATCH' && someYear.value)
       showAlert(
         `درآمد سال ${data.year} را قبلا تعیین کردید!`,
         'info',

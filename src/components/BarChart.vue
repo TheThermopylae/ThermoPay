@@ -1,5 +1,8 @@
 <template>
-  <Bar :data="chartData" :options="chartOptions" v-if="userData" />
+  <Bar :data="chartData" :options="chartOptions" v-if="years.length > 0" />
+  <p class="text-center" v-else>
+    اطلاعات موجود نیست! در صفحه ی درآمد ها، سال درآمدی خود را وارد کنید
+  </p>
 </template>
 
 <script>
@@ -14,6 +17,8 @@ import {
   LinearScale
 } from 'chart.js'
 
+import FilterIncomes from '../hooks/FilterIncomes'
+
 ChartJS.register(Title, Tooltip, BarElement, CategoryScale, LinearScale)
 
 export default {
@@ -23,13 +28,7 @@ export default {
     const userData = inject('userData')
     const incomes = inject('incomes')
 
-    const userIncomes = computed(() => {
-      let findIncomes = incomes.value.filter(
-        income => income[1].for == userData.value.name
-      )
-
-      return findIncomes.slice().sort((a, b) => a[1].year - b[1].year)
-    })
+    const [userIncomes] = FilterIncomes()
 
     let years = computed(() => {
       let yearsArray = []
@@ -78,7 +77,8 @@ export default {
     return {
       chartData,
       chartOptions,
-      userData
+      userData,
+      years
     }
   }
 }

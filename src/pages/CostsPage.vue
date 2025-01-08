@@ -1,5 +1,5 @@
 <template>
-  <div class="p-5 min-h-screen" v-if="userData">
+  <div class="p-5 min-h-screen" v-if="lastYearIncome">
     <h1 class="text-4xl font-semibold">محاسبه ی هزینه ها</h1>
     <NowIncome
       @searchCostAccept="searchCostFunc"
@@ -77,6 +77,7 @@ import AddCostModal from '../components/AddCostModal.vue'
 import CostsCard from '../components/CostsCard.vue'
 import DeleteCostModal from '../components/DeleteCostModal.vue'
 import EditCostModal from '../components/EditCostModal.vue'
+import FilterIncomes from '../hooks/FilterIncomes'
 
 export default {
   components: {
@@ -89,6 +90,8 @@ export default {
   setup () {
     let userData = inject('userData')
     let costs = inject('costs')
+
+    const [, lastYearIncome] = FilterIncomes()
 
     let searchedCosts = ref('')
 
@@ -155,7 +158,8 @@ export default {
       finalCost,
       calcPurchasedCosts,
       showEditCostModal,
-      openEditCostModal
+      openEditCostModal,
+      lastYearIncome
     }
   }
 }

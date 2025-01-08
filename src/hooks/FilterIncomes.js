@@ -9,13 +9,11 @@ export default function FilterIncomes () {
       income => income[1].for == userData.value.name
     )
     return findIncomes.slice().sort((a, b) => a[1].year - b[1].year)
-  })
+  })  
 
   let lastYearIncome = computed(() => {
-    let date = new Date().getFullYear()
-
-    let lastYear = userIncomes.value.find(income => income[1].year == date)
-    return lastYear
+    return userIncomes.value[userIncomes.value.length -1]
   })
+
   return [userIncomes, lastYearIncome]
 }

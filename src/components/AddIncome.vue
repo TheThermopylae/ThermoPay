@@ -47,10 +47,20 @@ export default {
       incomeData.for = userData.value.name
     })
 
-    let [checkValidate,loading] = IncomeValidate()
+    let [checkValidate, loading] = IncomeValidate()
 
     function addIncome () {
-      checkValidate(`https://thermopay-174f7-default-rtdb.firebaseio.com/incomes.json`,incomeData, 'POST', incomeData,"درآمد شما با موفقیت اضافه شد!","عدم برقراری ارتباط با سرور")
+      checkValidate(
+        `https://thermopay-174f7-default-rtdb.firebaseio.com/incomes.json`,
+        incomeData,
+        'POST',
+        { for : incomeData.for,
+          year : incomeData.year,
+          value : Number(incomeData.value)
+         },
+        'درآمد شما با موفقیت اضافه شد!',
+        'عدم برقراری ارتباط با سرور'
+      )
     }
     return { addIncome, incomeData, loading }
   }
