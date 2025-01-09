@@ -1,12 +1,12 @@
 <template>
-  <Bar :data="chartData" :options="chartOptions" v-if="years.length > 0" />
+  <Bar class="text-white" :data="chartData" :options="chartOptions" v-if="years.length > 0" />
   <p class="text-center" v-else>
     اطلاعات موجود نیست! در صفحه ی درآمد ها، سال درآمدی خود را وارد کنید
   </p>
 </template>
 
 <script>
-import { computed, inject } from 'vue'
+import { computed, inject,ref, watch } from 'vue'
 import { Bar } from 'vue-chartjs'
 import {
   Chart as ChartJS,
@@ -26,7 +26,10 @@ export default {
   components: { Bar },
   setup () {
     const userData = inject('userData')
-    const incomes = inject('incomes')
+
+    let textColor = ref( document.documentElement.classList.contains('dark') ? '#fff' : '#000') // رنگ متن لیبل‌ها)
+
+    ChartJS.defaults.color = textColor.value
 
     const [userIncomes] = FilterIncomes()
 

@@ -3,12 +3,14 @@
   <Transition>
     <LoadingScreen v-if="showLoadingScreen"></LoadingScreen>
   </Transition>
-  <TheHeader></TheHeader>
-  <router-view v-slot="{ Component }">
-    <transition name="scale" mode="out-in">
-      <component :is="Component" class="component" />
-    </transition>
-  </router-view>
+  <div class="dark:bg-gray-800 dark:text-white min-h-screen transition-all">
+    <TheHeader></TheHeader>
+    <router-view v-slot="{ Component }">
+      <transition name="scale" mode="out-in">
+        <component :is="Component" class="component" />
+      </transition>
+    </router-view>
+  </div>
 </template>
 <script>
 import { onMounted, provide, ref } from 'vue'

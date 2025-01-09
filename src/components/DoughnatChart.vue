@@ -1,10 +1,22 @@
 <template>
-  <Doughnut :data="data" :options="options" v-if="userCosts.length > 0"></Doughnut>
-  <p v-else>موردی موجود نیست! در صفحه ی هزینه ها، هزینه های خود را یادداشت کنید</p>
+  <Doughnut
+    :data="data"
+    :options="options"
+    v-if="userCosts.length > 0"
+  ></Doughnut>
+  <p v-else>
+    موردی موجود نیست! در صفحه ی هزینه ها، هزینه های خود را یادداشت کنید
+  </p>
 </template>
 
 <script>
-import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js'
+import {
+  Chart as ChartJS,
+  ArcElement,
+  Tooltip,
+  Legend,
+  plugins
+} from 'chart.js'
 import { Doughnut } from 'vue-chartjs'
 import { computed, inject, nextTick } from 'vue'
 ChartJS.register(ArcElement, Tooltip, Legend)
@@ -85,7 +97,16 @@ export default {
     })
 
     const options = computed(() => ({
-      responsive: true
+      responsive: true,
+      plugins: {
+        legend: {
+          labels: {
+            color: document.documentElement.classList.contains('dark')
+              ? '#fff'
+              : '#000' // رنگ متن لیبل‌ها
+          }
+        }
+      }
     }))
 
     return { data, options, userCosts }
