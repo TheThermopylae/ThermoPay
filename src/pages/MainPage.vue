@@ -19,7 +19,7 @@
 </template>
 
 <script>
-import { inject, ref } from 'vue'
+import { inject } from 'vue'
 import { Tippy } from 'vue-tippy'
 import BarChart from '../components/BarChart.vue'
 import DoughnatChart from '../components/DoughnatChart.vue'
@@ -28,25 +28,7 @@ export default {
   components: { Tippy, BarChart, DoughnatChart },
   setup () {
     let userData = inject('userData')
-    function kir () {
-      fetch(
-        `https://thermopay-174f7-default-rtdb.firebaseio.com/user/-OFgZAxJZ2Rq8XIdLOB8.json`,
-        {
-          method: 'PATCH',
-          headers: {
-            'content-type': 'application/json'
-          },
-          body: JSON.stringify({
-            income: {
-              2019: 25000,
-              2020: 27000,
-              2021: 15000
-            }
-          })
-        }
-      )
-    }
-    return { userData, kir }
+    return { userData }
   }
 }
 </script>
