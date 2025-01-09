@@ -8,7 +8,7 @@
         </h3>
         <BarChart></BarChart>
       </div>
-      <div class="m-auto">
+      <div class="m-auto h-full">
         <h3 class="mb-2 text-xl text-center">
           هزینه های شما در این ماه بر حسب دلار
         </h3>

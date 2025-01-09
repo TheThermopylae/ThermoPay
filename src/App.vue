@@ -11,7 +11,7 @@
   </router-view>
 </template>
 <script>
-import { onMounted, provide, ref, watch } from 'vue'
+import { onMounted, provide, ref } from 'vue'
 import LoadingScreen from './components/LoadingScreen.vue'
 import ShowAlert from './hooks/ShowAlert'
 import TheHeader from './components/TheHeader.vue'

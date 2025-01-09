@@ -1,11 +1,12 @@
 <template>
-  <Doughnut :data="data" :options="options"></Doughnut>
+  <Doughnut :data="data" :options="options" v-if="userCosts.length > 0"></Doughnut>
+  <p v-else>موردی موجود نیست! در صفحه ی هزینه ها، هزینه های خود را یادداشت کنید</p>
 </template>
 
 <script>
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js'
 import { Doughnut } from 'vue-chartjs'
-import { ref, computed, inject, nextTick } from 'vue'
+import { computed, inject, nextTick } from 'vue'
 ChartJS.register(ArcElement, Tooltip, Legend)
 
 export default {
@@ -22,71 +23,17 @@ export default {
 
     let categories = ['اینترنت', 'رفت و آمد', 'تفریح', 'ماشین', 'خانه', 'دیگر']
 
-    let internetCosts = computed(() => {
+    function calculate (category) {
       let allCosts = userCosts.value.filter(
-        cost => cost[1].selectCategory == 'اینترنت' && cost[1].isPurchased
+        cost => cost[1].selectCategory == category && cost[1].isPurchased
       )
+
       let sum = 0
 
       allCosts.forEach(cost => (sum += cost[1].price))
 
       return sum
-    })
-
-    let travel = computed(() => {
-      let allCosts = userCosts.value.filter(
-        cost => cost[1].selectCategory == 'رفت و آمد' && cost[1].isPurchased
-      )
-      let sum = 0
-
-      allCosts.forEach(cost => (sum += cost[1].price))
-
-      return sum
-    })
-
-    let fun = computed(() => {
-      let allCosts = userCosts.value.filter(
-        cost => cost[1].selectCategory == 'تفریح' && cost[1].isPurchased
-      )
-      let sum = 0
-
-      allCosts.forEach(cost => (sum += cost[1].price))
-
-      return sum
-    })
-
-    let car = computed(() => {
-      let allCosts = userCosts.value.filter(
-        cost => cost[1].selectCategory == 'ماشین' && cost[1].isPurchased
-      )
-      let sum = 0
-
-      allCosts.forEach(cost => (sum += cost[1].price))
-
-      return sum
-    })
-
-    let house = computed(() => {
-      let allCosts = userCosts.value.filter(
-        cost => cost[1].selectCategory == 'خانه' && cost[1].isPurchased
-      )
-      let sum = 0
-
-      allCosts.forEach(cost => (sum += cost[1].price))
-
-      return sum
-    })
-
-    let other = computed(() => {
-      let allCosts = userCosts.value.filter(
-        cost => cost[1].selectCategory == 'دیگر' && cost[1].isPurchased
-      )
-      let sum = 0
-
-      allCosts.forEach(cost => (sum += cost[1].price))
-
-      return sum
-    })
+    }
     let data = computed(() => {
       nextTick(() => ({
         labels: categories,
@@ -100,7 +47,14 @@ export default {
               '#79e4f8',
               '#f879e4'
             ],
-            data: [internetCosts, travel, fun, car, house, other]
+            data: [
+              calculate('اینترنت'),
+              calculate('رفت و آمد'),
+              calculate('تفریح'),
+              calculate('ماشین'),
+              calculate('خانه'),
+              calculate('دیگر')
+            ]
           }
         ]
       }))
@@ -118,12 +72,12 @@ export default {
               '#f879e4'
             ],
             data: [
-              internetCosts.value,
-              travel.value,
-              fun.value,
-              car.value,
-              house.value,
-              other.value
+              calculate('اینترنت'),
+              calculate('رفت و آمد'),
+              calculate('تفریح'),
+              calculate('ماشین'),
+              calculate('خانه'),
+              calculate('دیگر')
             ]
           }
         ]
@@ -134,7 +88,7 @@ export default {
       responsive: true
     }))
 
-    return { data, options }
+    return { data, options, userCosts }
   }
 }
 </script>
