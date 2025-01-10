@@ -56,7 +56,7 @@
           </div>
         </div>
         <div class="hidden flex-none lg:block">
-          <ul class="menu menu-horizontal text-2xl gap-3 items-center">
+          <ul class="menu menu-horizontal text-2xl gap-5 items-center">
             <router-link to="/" class="transition duration-300 dark:text-white">
               <i class="fa-solid fa-home" v-tippy="'صفحه اصلی'"></i>
             </router-link>

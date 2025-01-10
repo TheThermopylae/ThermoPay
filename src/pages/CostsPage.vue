@@ -1,7 +1,6 @@
 <template>
   <div class="p-5" v-if="lastYearIncome">
     <Teleport to="title"> | هزینه ها</Teleport>
-
     <h1 class="text-4xl font-semibold">محاسبه ی هزینه ها</h1>
     <NowIncome
       @searchCostAccept="searchCostFunc"
@@ -33,6 +32,7 @@
           v-for="item in notPurchasedCosts"
           :cost="item"
           :key="item[0]"
+          @showEditCostModal="openEditCostModal(item)"
           @showDeleteModal="openDeleteCostModal(item)"
         ></CostsCard>
       </div>
