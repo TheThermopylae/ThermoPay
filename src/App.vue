@@ -8,7 +8,7 @@
       @onDarkMode="darkmode = true"
       @offDarkMode="darkmode = false"
     ></TheHeader>
-    <router-view v-slot="{ Component }">
+    <router-view v-slot="{ Component }" @click.middle="sexWithJafarMother">
       <transition name="scale" mode="out-in">
         <component :is="Component" class="component" />
       </transition>
@@ -116,9 +116,14 @@ export default {
     provide('incomes', incomes)
     provide('darkmode', darkmode)
 
+    function sexWithJafarMother () {
+      alert('کصمادرت جفر')
+    }
+
     return {
       showLoadingScreen,
-      darkmode
+      darkmode,
+      sexWithJafarMother
     }
   }
 }

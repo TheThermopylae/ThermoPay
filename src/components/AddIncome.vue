@@ -3,14 +3,14 @@
     <h2 class="text-2xl">درآمد شما در سال های گذشته:</h2>
     <div class="grid grid-cols-2 gap-2 flex-grow">
       <input
-        type="text"
+        type="number"
         id="new-year-income"
         class="border border-primary w-full rounded-full px-4 outline-none"
         placeholder="سال درآمد شما"
         v-model="incomeData.year"
       />
       <input
-        type="text"
+        type="number"
         id="new-value-income"
         class="border border-primary w-full rounded-full px-4 outline-none"
         placeholder="مقدار درآمد شما"
