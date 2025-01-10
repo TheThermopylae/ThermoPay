@@ -1,12 +1,18 @@
 <template>
-  <Bar class="text-white" :data="chartData" :options="chartOptions" v-if="years.length > 0" />
+  <Bar
+    :key="chartKey"
+    class="text-white"
+    :data="chartData"
+    :options="chartOptions"
+    v-if="years.length > 0"
+  />
   <p class="text-center" v-else>
     اطلاعات موجود نیست! در صفحه ی درآمد ها، سال درآمدی خود را وارد کنید
   </p>
 </template>
 
 <script>
-import { computed, inject,ref, watch } from 'vue'
+import { computed, inject, ref, watch } from 'vue'
 import { Bar } from 'vue-chartjs'
 import {
   Chart as ChartJS,
@@ -21,15 +27,13 @@ import FilterIncomes from '../hooks/FilterIncomes'
 
 ChartJS.register(Title, Tooltip, BarElement, CategoryScale, LinearScale)
 
+import ToDarkMode from '../hooks/ToDarkMode'
+
 export default {
   name: 'BarChart',
   components: { Bar },
   setup () {
     const userData = inject('userData')
-
-    let textColor = ref( document.documentElement.classList.contains('dark') ? '#fff' : '#000') // رنگ متن لیبل‌ها)
-
-    ChartJS.defaults.color = textColor.value
 
     const [userIncomes] = FilterIncomes()
 
@@ -77,11 +81,14 @@ export default {
       responsive: true
     }))
 
+    const chartKey = ToDarkMode()
+
     return {
       chartData,
       chartOptions,
       userData,
-      years
+      years,
+      chartKey
     }
   }
 }

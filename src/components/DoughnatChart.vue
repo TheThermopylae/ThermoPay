@@ -1,5 +1,6 @@
 <template>
   <Doughnut
+    :key="chartKey"
     :data="data"
     :options="options"
     v-if="userCosts.length > 0"
@@ -15,10 +16,11 @@ import {
   ArcElement,
   Tooltip,
   Legend,
-  plugins
 } from 'chart.js'
 import { Doughnut } from 'vue-chartjs'
-import { computed, inject, nextTick } from 'vue'
+import { computed, inject, nextTick} from 'vue'
+import ToDarkMode from '../hooks/ToDarkMode'
+
 ChartJS.register(ArcElement, Tooltip, Legend)
 
 export default {
@@ -97,19 +99,12 @@ export default {
     })
 
     const options = computed(() => ({
-      responsive: true,
-      plugins: {
-        legend: {
-          labels: {
-            color: document.documentElement.classList.contains('dark')
-              ? '#fff'
-              : '#000' // رنگ متن لیبل‌ها
-          }
-        }
-      }
+      responsive: true
     }))
 
-    return { data, options, userCosts }
+    const chartKey = ToDarkMode()
+
+    return { data, options, userCosts, chartKey }
   }
 }
 </script>

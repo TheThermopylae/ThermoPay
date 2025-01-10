@@ -4,7 +4,7 @@
     <LoadingScreen v-if="showLoadingScreen"></LoadingScreen>
   </Transition>
   <div class="dark:bg-gray-800 dark:text-white min-h-screen transition-all">
-    <TheHeader></TheHeader>
+    <TheHeader @onDarkMode="darkmode = true" @offDarkMode="darkmode = false"></TheHeader>
     <router-view v-slot="{ Component }">
       <transition name="scale" mode="out-in">
         <component :is="Component" class="component" />
@@ -13,7 +13,7 @@
   </div>
 </template>
 <script>
-import { onMounted, provide, ref } from 'vue'
+import { onMounted, provide, ref ,watch} from 'vue'
 import LoadingScreen from './components/LoadingScreen.vue'
 import ShowAlert from './hooks/ShowAlert'
 import TheHeader from './components/TheHeader.vue'
@@ -78,6 +78,16 @@ export default {
         })
     }
 
+    let darkmode = ref(false)
+
+    watch(darkmode, () => {
+      if (darkmode.value) {
+        document.querySelector('html').classList.add('dark')
+      } else {
+        document.querySelector('html').classList.remove('dark')
+      }
+    })
+
     onMounted(() => {
       getUserData(`خوش آمدید ${userData.value.name} عزیز`)
       getCosts()
@@ -90,9 +100,11 @@ export default {
     provide('getCosts', getCosts)
     provide('getIncomes', getIncomes)
     provide('incomes', incomes)
+    provide('darkmode', darkmode)
 
     return {
-      showLoadingScreen
+      showLoadingScreen,
+      darkmode
     }
   }
 }
