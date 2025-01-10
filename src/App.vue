@@ -112,7 +112,7 @@ export default {
 
 <style>
 body {
-  overflow: hidden;
+  overflow-x: hidden;
 }
 .v-enter-active,
 .v-leave-active {

@@ -6,7 +6,7 @@
     </div>
     <div class="flex justify-end mt-2">
       <i
-        class="fa-solid fa-pen cursor-pointer ml-3 hover:text-gray-600 transition-all"
+        class="fa-solid fa-pen cursor-pointer ml-3 hover:text-green-500 transition-all"
         v-tippy="'ویرایش درآمد'"
         @click="$emit('openEditIncomeModal')"
       ></i>

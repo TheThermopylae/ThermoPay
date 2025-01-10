@@ -1,5 +1,5 @@
 <template>
-  <div class="p-5 min-h-screen" v-if="lastYearIncome">
+  <div class="p-5" v-if="lastYearIncome">
     <Teleport to="title"> | هزینه ها</Teleport>
 
     <h1 class="text-4xl font-semibold">محاسبه ی هزینه ها</h1>
@@ -15,7 +15,7 @@
       <p v-if="purchasedCosts.length === 0" class="text-lg border-b pb-5">
         موردی وجود ندارد!
       </p>
-      <div class="grid grid-cols-4 gap-5 border-b pb-5" v-else>
+      <div class="grid grid-cols-4 gap-5 border-b dark:border-b-gray-600 pb-5" v-else>
         <CostsCard
           v-for="item in purchasedCosts"
           :cost="item"

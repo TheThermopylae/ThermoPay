@@ -34,7 +34,7 @@
           <select
             id="cost-cat"
             v-model="data.selectCategory"
-            class="border border-primary w-full rounded-full p-2 mt-2 outline-none"
+            class="border border-primary w-full rounded-full p-2 mt-2 outline-none bg-white dark:bg-[#374151]"
           >
             <option value="" disabled>دسته بندی را انتخاب کنید</option>
             <option v-for="item in categories" :value="item">{{ item }}</option>
