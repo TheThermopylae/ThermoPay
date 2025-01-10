@@ -15,7 +15,7 @@
       <p v-if="purchasedCosts.length === 0" class="text-lg border-b pb-5">
         موردی وجود ندارد!
       </p>
-      <div class="grid grid-cols-4 gap-5 border-b dark:border-b-gray-600 pb-5" v-else>
+      <div class="grid grid-cols-1 lg:grid-cols-4  gap-5 border-b dark:border-b-gray-600 pb-5" v-else>
         <CostsCard
           v-for="item in purchasedCosts"
           :cost="item"
@@ -28,7 +28,7 @@
       <p v-if="notPurchasedCosts.length === 0" class="text-lg">
         موردی وجود ندارد!
       </p>
-      <div class="grid grid-cols-4 mt-5 gap-5">
+      <div class="grid grid-cols-1 lg:grid-cols-4 mt-5 gap-5 mb-5">
         <CostsCard
           v-for="item in notPurchasedCosts"
           :cost="item"
@@ -37,7 +37,7 @@
         ></CostsCard>
       </div>
     </div>
-    <div class="fixed left-5 bottom-5 text-xl">
+    <div class=" text-xl">
       <div class="flex gap-1">
         <p class="">هزینه نهایی شما :</p>
         <span class="text-green-500">{{ finalCost.toLocaleString() }}$</span>

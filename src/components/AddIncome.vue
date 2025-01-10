@@ -1,18 +1,18 @@
 <template>
-  <div class="flex justify-between gap-5 items-cener">
+  <div class="lg:flex justify-between gap-5">
     <h2 class="text-2xl">درآمد شما در سال های گذشته:</h2>
-    <div class="grid grid-cols-2 gap-2 flex-grow">
+    <div class="lg:flex flex-grow gap-5">
       <input
         type="number"
         id="new-year-income"
-        class="border border-primary w-full rounded-full px-4 outline-none"
+        class="border border-primary w-full rounded-full px-4 outline-none p-3 lg:py-0 my-3 lg:m-0"
         placeholder="سال درآمد شما"
         v-model="incomeData.year"
       />
       <input
         type="number"
         id="new-value-income"
-        class="border border-primary w-full rounded-full px-4 outline-none"
+        class="border border-primary w-full rounded-full px-4 outline-none p-3 lg:py-0 mb-3 lg:m-0"
         placeholder="مقدار درآمد شما"
         v-model="incomeData.value"
       />

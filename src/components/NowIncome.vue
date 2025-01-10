@@ -1,5 +1,5 @@
 <template>
-  <div class="flex justify-between mt-5 items-end gap-5" v-if="lastYearIncome">
+  <div class="lg:flex justify-between mt-5 items-end gap-5" v-if="lastYearIncome">
     <div>
       <h2 class="text-xl mt-3">
         درامد سالانه شما :
@@ -18,7 +18,7 @@
       @keyup="searchCost"
       type="search"
       id="search-cost"
-      class="border border-primary rounded-full flex-grow p-2.5 outline-none"
+      class="my-5 lg:m-0 border border-primary rounded-full flex-grow p-2.5 outline-none w-full lg:w-auto"
       placeholder="جست و جوی هزینه..."
     />
     <button class="btn btn-primary" @click="$emit('openAddCostModal')">

@@ -5,7 +5,7 @@
     <div class="mt-5">
       <AddIncome></AddIncome>
       <p v-if="userIncomes.length === 0" class="text-2xl mt-5 text-center">موردی وجود ندارد!</p>
-      <div class="grid grid-cols-4 gap-5 mt-3" v-else>
+      <div class="grid grid-cols-1 lg:grid-cols-4 gap-5 mt-3" v-else>
         <IncomeCard
           @openEditIncomeModal="showEditIncomeModalFunc(item)"
           @openRemoveIncomeModal="showRemoveIncomeModalFunc(item)"

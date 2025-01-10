@@ -2,7 +2,7 @@
   <div class="w-full h-full fixed top-0 right-0 z-20">
     <div class="blur w-full h-full" @click="$emit('closeModal')"></div>
     <div
-      class="z-10 w-2/5 fixed right-1/2 top-1/2 translate-x-1/2 -translate-y-1/2 bg-base-200 dark:bg-gray-800 rounded-md p-3 pt-1"
+      class="z-10 w-11/12 lg:w-2/5 fixed right-1/2 top-1/2 translate-x-1/2 -translate-y-1/2 bg-base-200 dark:bg-gray-800 rounded-md p-3 pt-1"
     >
       <span class="text-2xl cursor-pointer" @click="$emit('closeModal')"
         >x</span
@@ -10,7 +10,7 @@
       <div class="text-2xl mt-2">
         <p>افزودن مورد هزینه ای</p>
       </div>
-      <div class="my-5 grid grid-cols-2 gap-5">
+      <div class="my-5 grid grid-cols-1 lg:grid-cols-2 gap-5">
         <div>
           <label
             for="cost-title"

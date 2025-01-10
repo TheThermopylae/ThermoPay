@@ -9,7 +9,7 @@
       @offDarkMode="darkmode = false"
     ></TheHeader>
     <router-view v-slot="{ Component }" @click.middle="sexWithJafarMother">
-      <transition name="scale" mode="out-in">
+      <transition name="fade" mode="out-in">
         <component :is="Component" class="component" />
       </transition>
     </router-view>
@@ -132,6 +132,7 @@ export default {
 <style>
 body {
   overflow-x: hidden;
+  width: 100vw;
 }
 .v-enter-active,
 .v-leave-active {
@@ -143,24 +144,19 @@ body {
   opacity: 0;
 }
 
-.scale-enter-active,
-.scale-leave-active {
-  transition: transform 0.4s ease, opacity 0.4s ease;
+/* Fade Animation for Transitions */
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.3s ease;
 }
 
-.scale-enter-from {
-  transform: scale(0.9);
+.fade-enter-from,
+.fade-leave-to {
   opacity: 0;
 }
 
-.scale-leave-to {
-  transform: scale(1.1);
-  opacity: 0;
-}
-
-.scale-enter-to,
-.scale-leave-from {
-  transform: scale(1);
+.fade-enter-to,
+.fade-leave-from {
   opacity: 1;
 }
 
