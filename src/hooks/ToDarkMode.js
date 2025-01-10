@@ -13,5 +13,7 @@ export default function ToDarkMode () {
     chartKey.value++
   })
 
+  ChartJs.defaults.color = darkmode.value ? "#fff" : "#000"
+
   return chartKey
 }
