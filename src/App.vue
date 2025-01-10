@@ -4,7 +4,10 @@
     <LoadingScreen v-if="showLoadingScreen"></LoadingScreen>
   </Transition>
   <div class="dark:bg-gray-800 dark:text-white min-h-screen transition-all">
-    <TheHeader @onDarkMode="darkmode = true" @offDarkMode="darkmode = false"></TheHeader>
+    <TheHeader
+      @onDarkMode="darkmode = true"
+      @offDarkMode="darkmode = false"
+    ></TheHeader>
     <router-view v-slot="{ Component }">
       <transition name="scale" mode="out-in">
         <component :is="Component" class="component" />
@@ -13,7 +16,7 @@
   </div>
 </template>
 <script>
-import { onMounted, provide, ref ,watch} from 'vue'
+import { onMounted, provide, ref, watch } from 'vue'
 import LoadingScreen from './components/LoadingScreen.vue'
 import ShowAlert from './hooks/ShowAlert'
 import TheHeader from './components/TheHeader.vue'
@@ -83,15 +86,26 @@ export default {
     watch(darkmode, () => {
       if (darkmode.value) {
         document.querySelector('html').classList.add('dark')
+        localStorage.setItem('darkmode', true)
       } else {
         document.querySelector('html').classList.remove('dark')
+        localStorage.setItem('darkmode', false)
       }
     })
+
+    function checkDarkModeOn () {
+      if (localStorage.getItem('darkmode') == true)
+        document.querySelector('html').classList.add('dark')
+      else document.querySelector('html').classList.remove('dark')
+
+      darkmode.value = JSON.parse(localStorage.getItem('darkmode'))
+    }
 
     onMounted(() => {
       getUserData(`خوش آمدید ${userData.value.name} عزیز`)
       getCosts()
       getIncomes()
+      checkDarkModeOn()
     })
 
     provide('userData', userData)

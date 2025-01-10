@@ -1,5 +1,5 @@
 <template>
-  <div class="fixed h-full w-full bg-white flex justify-center items-center z-20">
+  <div class="fixed h-full w-full bg-white dark:bg-gray-800 flex justify-center items-center z-20">
     <LoadingDots class="w-20 h-20 text-green-500"></LoadingDots>
   </div>
 </template>

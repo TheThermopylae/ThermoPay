@@ -36,13 +36,13 @@
       </router-link>
       <span>|</span>
       <i
-        class="fa-solid fa-sun cursor-pointer w-5"
+        class="fa-solid fa-moon cursor-pointer w-5"
         v-tippy="'دارک مود'"
         v-if="!darkmode"
         @click="$emit('onDarkMode')"
       ></i>
       <i
-        class="fa-solid fa-moon cursor-pointer w-5 text-white"
+        class="fa-solid fa-sun cursor-pointer w-5 text-white"
         v-tippy="'لایت مود'"
         v-else
         @click="$emit('offDarkMode')"
