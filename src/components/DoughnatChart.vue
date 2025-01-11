@@ -32,14 +32,14 @@ export default {
     let costs = inject('costs')
 
     let userCosts = computed(() =>
-      costs.value.filter(cots => cots[1].for == userData.value.name)
+      costs.value.filter(cost => cost[1].for == userData.value.name && cost[1].isPurchased)
     )
 
     let categories = ['اینترنت', 'رفت و آمد', 'تفریح', 'ماشین', 'خانه', 'دیگر']
 
     function calculate (category) {
       let allCosts = userCosts.value.filter(
-        cost => cost[1].selectCategory == category && cost[1].isPurchased
+        cost => cost[1].selectCategory == category 
       )
 
       let sum = 0

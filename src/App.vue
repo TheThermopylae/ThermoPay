@@ -3,12 +3,16 @@
   <Transition>
     <LoadingScreen v-if="showLoadingScreen"></LoadingScreen>
   </Transition>
-  <div class="dark:bg-gray-800 dark:text-white min-h-screen transition-all">
+  <div class="bg-gray-100 dark:bg-gray-800 dark:text-white min-h-screen transition-all">
     <TheHeader
       @onDarkMode="darkmode = true"
       @offDarkMode="darkmode = false"
     ></TheHeader>
-    <router-view v-slot="{ Component }" @click.middle="sexWithJafarMother">
+    <router-view
+      v-slot="{ Component }"
+      class="pl-7"
+      @click.middle="sexWithJafarMother"
+    >
       <transition name="fade" mode="out-in">
         <component :is="Component" class="component" />
       </transition>
@@ -30,6 +34,7 @@ export default {
     let userData = ref('')
     let costs = ref([])
     let incomes = ref([])
+    let installments = ref([])
 
     let showLoadingScreen = ref(true)
 
@@ -81,6 +86,57 @@ export default {
         })
     }
 
+    function getInstallments () {
+      fetch(
+        'https://thermopay-174f7-default-rtdb.firebaseio.com/installments.json'
+      )
+        .then(res => res.json())
+        .then(data => {
+          let filterInstallments = Object.entries(data).filter(
+            installment => installment[0] != 'default'
+          )
+          installments.value = filterInstallments
+        })
+    }
+
+    function showReminders () {
+      let day = new Date().getDate()
+
+      let filterInstallments = installments.value.filter(
+        installment => installment[1].day == day
+      )
+
+      if (filterInstallments.length > 1) {
+        let installmentsArray = []
+        filterInstallments.forEach(installment =>
+          installmentsArray.push(installment[1].title)
+        )
+        showAlert(
+          `شما امروز باید قسط های ${installmentsArray.join(
+            ','
+          )} را پرداخت کنید`,
+          'info',
+          'rgb(68, 68, 240)',
+          '#fff',
+          'یاد آوری'
+        )
+      } else if (filterInstallments.length === 1) {
+        showAlert(
+          `شما امروز باید قسط ${filterInstallments[0][1].title} را پرداخت کنید`,
+          'info',
+          'rgb(68, 68, 240)',
+          '#fff',
+          'یاد آوری'
+        )
+      }
+    }
+
+    watch(installments, () => {
+      setTimeout(() => {
+        showReminders()
+      }, 4000)
+    })
+
     let darkmode = ref(false)
 
     watch(darkmode, () => {
@@ -106,6 +162,7 @@ export default {
       getCosts()
       getIncomes()
       checkDarkModeOn()
+      getInstallments()
     })
 
     provide('userData', userData)
@@ -114,6 +171,8 @@ export default {
     provide('getCosts', getCosts)
     provide('getIncomes', getIncomes)
     provide('incomes', incomes)
+    provide('installments', installments)
+    provide('getInstallments', getInstallments)
     provide('darkmode', darkmode)
 
     function sexWithJafarMother () {

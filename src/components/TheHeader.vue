@@ -1,16 +1,19 @@
 <template>
-  <div class="drawer p-3 mb-2 lg:mb-5">
+  <div class="drawer py-3 pl-7 px-5 mb-2 lg:mb-5">
     <input id="my-drawer-3" type="checkbox" class="drawer-toggle" />
     <div class="drawer-content flex flex-col">
-      <div class="navbar w-full">
+      <div class="navbar w-full p-0">
         <div class="flex-none lg:hidden"></div>
-        <div class="mx-2 w-full px-2 text-3xl flex-col lg:flex-row">
+        <div class="w-full text-3xl flex-col lg:flex-row">
           <h1 class="text-4xl lg:m-0 lg:text-5xl font-semibold text-green-500">
             Thermo<span
               class="bg-green-500 text-white px-2 py-0.5 ml-1 rounded-xl dark:text-gray-800"
               >Pay</span
             >
           </h1>
+          <p class="w-full mr-3">
+            مدیریت مالی {{ userData.name }} 
+          </p>
           <div class="mt-3 w-full">
             <ul
               class="flex justify-between w-full text-2xl gap-3 items-center lg:hidden"

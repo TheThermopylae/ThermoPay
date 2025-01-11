@@ -1,18 +1,18 @@
 <template>
-  <div class="w-full h-full fixed top-0 right-0 z-10">
+  <div class="w-full h-full fixed right-0 top-0 z-10">
     <div class="blur w-full h-full" @click="$emit('closeModal')"></div>
     <div
-      class="z-10 w-11/12 lg:w-2/5 fixed right-1/2 top-1/2 translate-x-1/2 -translate-y-1/2 bg-base-200 dark:bg-gray-800  rounded-md p-3"
+      class="z-10 w-11/12 lg:w-2/5 fixed right-1/2 top-1/2 translate-x-1/2 -translate-y-1/2 bg-base-200 dark:bg-gray-800 rounded-md p-3"
     >
       <div class="text-2xl">
-        <p>حدف کردن درآمد</p>
+        <p>حدف کردن یادآوری</p>
       </div>
       <p class="my-3">آیا میخواهید این مورد را حذف کنید؟</p>
       <div class="grid grid-cols-2 gap-5">
         <button
-          @click="deleteIncome"
           class="btn btn-primary text-white rounded-full w-full"
           v-if="!loading"
+          @click="deleteInstallmentReminder"
         >
           حذف کردن
         </button>
@@ -34,37 +34,35 @@
 import { inject, ref } from 'vue'
 import LoadingSpinner from './LoadingSpinner.vue'
 import ShowAlert from '../hooks/ShowAlert'
-
 export default {
-  components: {
-    LoadingSpinner
-  },
-  props: ['income'],
+  components: { LoadingSpinner },
+  props: ['installment'],
   setup (props, { emit }) {
     let loading = ref(false)
-    let getIncomes = inject('getIncomes')
+    let getInstallments = inject('getInstallments')
 
     const showAlert = ShowAlert()
 
-    function deleteIncome () {
-      loading.value = true
+    function deleteInstallmentReminder () {
+        loading.value = true
       fetch(
-        `https://thermopay-174f7-default-rtdb.firebaseio.com/incomes/${props.income[0]}.json`,
+        `https://thermopay-174f7-default-rtdb.firebaseio.com/installments/${props.installment[0]}.json`,
         {
           method: 'DELETE'
         }
       )
         .then(() => {
-          showAlert('درآمد شما با موفقیت حذف شد!', 'success', '#22C55E')
-          getIncomes()
+          showAlert('یادآوری شما حذف شذ!', 'success', '#22C55E')
+          getInstallments()
         })
+        .catch(() => showAlert('عدم برقراری ارتباط با سرور', 'error', 'red'))
         .finally(() => {
           loading.value = false
           emit('closeModal')
         })
     }
 
-    return { loading, deleteIncome }
+    return { loading, deleteInstallmentReminder }
   }
 }
 </script>

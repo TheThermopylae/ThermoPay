@@ -6,38 +6,7 @@
       @searchCostAccept="searchCostFunc"
       @openAddCostModal="showAddCostModal = true"
     ></NowIncome>
-    <p class="text-center text-xl mt-5" v-if="filterCosts.length === 0">
-      مورد هزینه ای وجود ندارد!
-    </p>
-    <div v-else>
-      <h3 class="text-xl mt-5 mb-3">پرداخت شده ها</h3>
-      <p v-if="purchasedCosts.length === 0" class="text-lg border-b pb-5">
-        موردی وجود ندارد!
-      </p>
-      <div class="grid grid-cols-1 lg:grid-cols-4  gap-5 border-b dark:border-b-gray-600 pb-5" v-else>
-        <CostsCard
-          v-for="item in purchasedCosts"
-          :cost="item"
-          :key="item[0]"
-          @showDeleteModal="openDeleteCostModal(item)"
-          @showEditCostModal="openEditCostModal(item)"
-        ></CostsCard>
-      </div>
-      <h3 class="text-xl mt-5 mb-3">پرداخت نشده ها</h3>
-      <p v-if="notPurchasedCosts.length === 0" class="text-lg">
-        موردی وجود ندارد!
-      </p>
-      <div class="grid grid-cols-1 lg:grid-cols-4 mt-5 gap-5 mb-5">
-        <CostsCard
-          v-for="item in notPurchasedCosts"
-          :cost="item"
-          :key="item[0]"
-          @showEditCostModal="openEditCostModal(item)"
-          @showDeleteModal="openDeleteCostModal(item)"
-        ></CostsCard>
-      </div>
-    </div>
-    <div class=" text-xl">
+    <div class="text-xl mt-5 leading-10 flex gap-3">
       <div class="flex gap-1">
         <p class="">هزینه نهایی شما :</p>
         <span class="text-green-500">{{ finalCost.toLocaleString() }}$</span>
@@ -47,6 +16,58 @@
         <span class="text-green-500"
           >{{ calcPurchasedCosts.toLocaleString() }}$</span
         >
+      </div>
+    </div>
+    <p class="text-center text-xl mt-5" v-if="filterCosts.length === 0">
+      مورد هزینه ای وجود ندارد!
+    </p>
+    <div v-else>
+      <h3 class="text-xl mt-5 mb-3">پرداخت شده ها</h3>
+      <p v-if="purchasedCosts.length === 0" class="text-lg">
+        موردی وجود ندارد!
+      </p>
+      <div
+        class="grid grid-cols-1 lg:grid-cols-4 gap-5 border-b dark:border-b-gray-600 pb-5"
+        v-else
+      >
+        <CostsCard
+          v-for="item in purchasedCosts"
+          :cost="item"
+          :key="item[0]"
+          @showDeleteModal="openDeleteCostModal(item)"
+          @showEditCostModal="openEditCostModal(item)"
+        ></CostsCard>
+      </div>
+      <h3 class="text-3xl mt-5 mb-3">پرداخت نشده ها</h3>
+      <p v-if="notPurchasedCosts.length === 0" class="text-lg">
+        موردی وجود ندارد!
+      </p>
+      <div
+        class="grid grid-cols-1 lg:grid-cols-4 mt-5 gap-5 border-b dark:border-gray-600 pb-5"
+      >
+        <CostsCard
+          v-for="item in notPurchasedCosts"
+          :cost="item"
+          :key="item[0]"
+          @showEditCostModal="openEditCostModal(item)"
+          @showDeleteModal="openDeleteCostModal(item)"
+        ></CostsCard>
+      </div>
+      <div class="flex justify-between items-center">
+        <h3 class="text-3xl mt-5 mb-3">اقساط</h3>
+        <button class="btn btn-primary" @click="showInstallmentModal = true">
+          افزودن یادآوری
+        </button>
+      </div>
+      <p class="text-lg" v-if="installments.length === 0">موردی وجود ندارد!</p>
+      <div class="grid grid-cols-1 lg:grid-cols-4 mt-5 gap-5 mb-5">
+        <InstallmentCard
+          @showEditInstallment="showEditInstallmentModalFunc(item)"
+          @showDeleteInstallment="showDeleteInstallmentModalFunc(item)"
+          v-for="item in installments"
+          :key="item[0]"
+          :data="item"
+        ></InstallmentCard>
       </div>
     </div>
     <Transition>
@@ -69,6 +90,26 @@
         @closeModal="showEditCostModal = false"
       ></EditCostModal>
     </Transition>
+    <Transition>
+      <InstallmentModal
+        @closeModal="showInstallmentModal = false"
+        v-if="showInstallmentModal"
+      ></InstallmentModal>
+    </Transition>
+    <Transition>
+      <DeleteInstallment
+        :installment="targetInstallment"
+        @closeModal="showDeleteInstallmentModal = false"
+        v-if="showDeleteInstallmentModal"
+      ></DeleteInstallment>
+    </Transition>
+    <Transition>
+      <EditInstallmentModal
+        v-if="showEditInstallmentModal"
+        :installment="targetInstallment"
+        @closeModal="showEditInstallmentModal = false"
+      ></EditInstallmentModal>
+    </Transition>
   </div>
 </template>
 
@@ -80,6 +121,10 @@ import CostsCard from '../components/CostsCard.vue'
 import DeleteCostModal from '../components/DeleteCostModal.vue'
 import EditCostModal from '../components/EditCostModal.vue'
 import FilterIncomes from '../hooks/FilterIncomes'
+import InstallmentModal from '../components/InstallmentModal.vue'
+import InstallmentCard from '../components/InstallmentCard.vue'
+import DeleteInstallment from '../components/DeleteInstallment.vue'
+import EditInstallmentModal from '../components/EditInstallmentModal.vue'
 
 export default {
   components: {
@@ -87,7 +132,11 @@ export default {
     AddCostModal,
     CostsCard,
     DeleteCostModal,
-    EditCostModal
+    EditCostModal,
+    InstallmentModal,
+    InstallmentCard,
+    DeleteInstallment,
+    EditInstallmentModal
   },
   setup () {
     let userData = inject('userData')
@@ -147,6 +196,25 @@ export default {
       showEditCostModal.value = true
     }
 
+    let showInstallmentModal = ref(false)
+
+    let installments = inject('installments')
+
+    let showDeleteInstallmentModal = ref(false)
+    let targetInstallment = ref('')
+
+    function showDeleteInstallmentModalFunc (item) {
+      showDeleteInstallmentModal.value = true
+      targetInstallment.value = item
+    }
+
+    let showEditInstallmentModal = ref(false)
+
+    function showEditInstallmentModalFunc(item){
+      targetInstallment.value = item
+      showEditInstallmentModal.value = true
+    }
+
     return {
       userData,
       showAddCostModal,
@@ -161,7 +229,14 @@ export default {
       calcPurchasedCosts,
       showEditCostModal,
       openEditCostModal,
-      lastYearIncome
+      lastYearIncome,
+      showInstallmentModal,
+      installments,
+      showDeleteInstallmentModal,
+      showDeleteInstallmentModalFunc,
+      targetInstallment,
+      showEditInstallmentModal,
+      showEditInstallmentModalFunc
     }
   }
 }

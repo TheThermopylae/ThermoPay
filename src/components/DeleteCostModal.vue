@@ -1,5 +1,5 @@
 <template>
-  <div class="w-full h-full fixed top-0 z-10">
+  <div class="w-full h-screen fixed top-0 right-0 z-10">
     <div class="blur w-full h-full" @click="$emit('closeModal')"></div>
     <div
       class="z-10 w-11/12 lg:w-2/5 fixed right-1/2 top-1/2 translate-x-1/2 -translate-y-1/2 bg-base-200 dark:bg-gray-800 rounded-md p-3"

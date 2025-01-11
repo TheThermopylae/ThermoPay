@@ -1,5 +1,5 @@
 <template>
-  <div class="border rounded-xl p-2 pl-3 transition-all" :class="{'border-primary' : cost[1].isPurchased , 'border-red-500' : !cost[1].isPurchased}">
+  <div class="bg-white dark:bg-gray-700 border rounded-xl p-2 transition-all" :class="{'border-primary' : cost[1].isPurchased , 'border-red-500' : !cost[1].isPurchased}">
     <div class="flex justify-between text-xl">
       <h4 class="mb-1">{{ cost[1].costTitle }}</h4>
       <h4>{{ cost[1].selectCategory }}</h4>
