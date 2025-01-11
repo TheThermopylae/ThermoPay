@@ -53,7 +53,7 @@
       </div>
       <button
         class="btn btn-primary text-white rounded-full w-full mt-5"
-        @click="addCost"
+        @click="checkValidate"
         v-if="!loading"
       >
         اضافه کردن
@@ -71,7 +71,8 @@
 <script>
 import { inject, reactive, ref } from 'vue'
 import LoadingSpinner from './LoadingSpinner.vue'
-import ShowAlert from '../hooks/ShowAlert'
+import DateHook from '../hooks/DateHook'
+import CostValidate from '../hooks/CostValidate'
 
 export default {
   components: {
@@ -79,12 +80,8 @@ export default {
   },
   setup (_, { emit }) {
     let userData = inject('userData')
-    let getCosts = inject('getCosts')
 
-    let date = new Date()
-    let toMonth = date.getMonth()
-    let toYear = date.getFullYear()
-    let today = date.getDate()
+    const [day, month, year] = DateHook()
 
     let data = reactive({
       costTitle: '',
@@ -92,65 +89,22 @@ export default {
       price: '',
       for: userData.value.name,
       isPurchased: false,
-      year: toYear,
-      month: toMonth,
-      day: today
+      year: year,
+      month: month,
+      day: day
     })
 
     let categories = ['اینترنت', 'رفت و آمد', 'تفریح', 'ماشین', 'خانه', 'دیگر']
 
-    let loading = ref(false)
+    const [loading, checkValidate] = CostValidate(
+      data,
+      emit,
+      `https://thermopay-174f7-default-rtdb.firebaseio.com/costs.json`,
+      'POST',
+      data
+    )
 
-    const showAlert = ShowAlert()
-
-    function validate () {
-      if (!data.costTitle || !data.selectCategory) return false
-      else return true
-    }
-
-    function addCost () {
-      if (!validate()) {
-        showAlert(
-          'لطفا عنوان هزینه را وارد و دسته بندی را انتخاب کنید',
-          'error',
-          'red'
-        )
-      } else {
-        loading.value = true
-        let costPrice
-        !data.price ? (costPrice = 0) : (costPrice = data.price)
-        fetch(
-          `https://thermopay-174f7-default-rtdb.firebaseio.com/costs.json`,
-          {
-            method: 'POST',
-            headers: {
-              'content-type': 'application/json'
-            },
-            body: JSON.stringify({
-              ...data,
-              price: costPrice
-            })
-          }
-        )
-          .then(() => {
-            showAlert('مورد هزینه ای شما اضافه شد!', 'success', '#22C55E')
-            getCosts()
-          })
-          .catch(() => showAlert('عدم برقراری ارتباط با سروو', 'error', 'red'))
-          .finally(() => {
-            loading.value = false
-            emit('closeModal')
-          })
-      }
-    }
-
-    return { data, categories, loading, addCost }
+    return { data, categories, loading, checkValidate }
   }
 }
 </script>
-
-<style>
-.blur {
-  background-color: rgba(5, 5, 5, 0.5);
-}
-</style>

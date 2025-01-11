@@ -78,7 +78,15 @@
       <button
         class="btn btn-primary text-white rounded-full w-full mt-5"
         v-if="!loading"
-        @click="editReminder"
+        @click="
+          checkValidate(
+            data,
+            `https://thermopay-174f7-default-rtdb.firebaseio.com/installments/${props.installment[0]}.json`,
+            'PATCH',
+            data,
+            emit
+          )
+        "
       >
         ویرایش کردن یادآوری
       </button>
@@ -93,9 +101,9 @@
 </template>
 
 <script>
-import { inject, reactive, ref } from 'vue'
+import { reactive } from 'vue'
 import LoadingSpinner from './LoadingSpinner.vue'
-import ShowAlert from '../hooks/ShowAlert'
+import InstallmentValidate from '../hooks/InstallmentValidate'
 
 export default {
   components: {
@@ -103,11 +111,7 @@ export default {
   },
   props: ['installment'],
   setup (props, { emit }) {
-    let loading = ref(false)
-
     let categories = ['خانه', 'ماشین', 'وسایل خانه', 'وسایل الکتریکی', 'دیگر']
-
-    let getInstallments = inject('getInstallments')
 
     let data = reactive({
       title: props.installment[1].title,
@@ -116,40 +120,9 @@ export default {
       price: props.installment[1].price
     })
 
-    const showAlert = ShowAlert()
+    const [loading, checkValidate] = InstallmentValidate()
 
-    function editReminder () {
-      if (!data.title || !data.selectCategory || !data.count || !data.price) {
-        showAlert('تمامی فیلد هارا پر کنید', 'info', 'rgb(68, 68, 240)')
-      } else {
-        loading.value = true
-        fetch(
-          `https://thermopay-174f7-default-rtdb.firebaseio.com/installments/${props.installment[0]}.json`,
-          {
-            method: 'PATCH',
-            headers: {
-              'content-type': 'application/json'
-            },
-            body: JSON.stringify({
-              title: data.title,
-              selectCategory: data.selectCategory,
-              count: data.count,
-              price: data.price
-            })
-          }
-        )
-          .then(() => {
-            showAlert('یادآوری شما با موفقیت انجام شد!', 'success', '#22C55E')
-            getInstallments()
-          })
-          .catch(() => showAlert('عدم برقراری ارتباط با سرور', 'error', 'red'))
-          .finally(() => {
-            loading.value = false
-            emit('closeModal')
-          })
-      }
-    }
-    return { loading, categories, editReminder, data }
+    return { loading, categories, checkValidate, data, emit }
   }
 }
 </script>

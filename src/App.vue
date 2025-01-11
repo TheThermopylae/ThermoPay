@@ -3,7 +3,9 @@
   <Transition>
     <LoadingScreen v-if="showLoadingScreen"></LoadingScreen>
   </Transition>
-  <div class="bg-gray-100 dark:bg-gray-800 dark:text-white min-h-screen transition-all">
+  <div
+    class="bg-gray-100 dark:bg-gray-800 dark:text-white min-h-screen transition-all"
+  >
     <TheHeader
       @onDarkMode="darkmode = true"
       @offDarkMode="darkmode = false"
@@ -226,5 +228,9 @@ input[type='number']::-webkit-outer-spin-button {
 }
 input[type='number'] {
   appearance: textfield;
+}
+
+.blur {
+  background-color: rgba(5, 5, 5, 0.5);
 }
 </style>

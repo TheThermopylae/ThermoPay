@@ -78,7 +78,15 @@
       <button
         class="btn btn-primary text-white rounded-full w-full mt-5"
         v-if="!loading"
-        @click="addReminder"
+        @click="
+          checkValidate(
+            data,
+            `https://thermopay-174f7-default-rtdb.firebaseio.com/installments.json`,
+            'POST',
+            data,
+            emit
+          )
+        "
       >
         افزودن یادآوری
       </button>
@@ -93,25 +101,19 @@
 </template>
 
 <script>
-import { inject, reactive, ref } from 'vue'
+import { reactive } from 'vue'
 import LoadingSpinner from './LoadingSpinner.vue'
-import ShowAlert from '../hooks/ShowAlert'
+import DateHook from '../hooks/DateHook'
+import InstallmentValidate from '../hooks/InstallmentValidate'
 
 export default {
   components: {
     LoadingSpinner
   },
   setup (_, { emit }) {
-    let loading = ref(false)
-
     let categories = ['خانه', 'ماشین', 'وسایل خانه', 'وسایل الکتریکی', 'دیگر']
 
-    let getInstallments = inject('getInstallments')
-
-    let date = new Date()
-    let month = date.getMonth()
-    let day = date.getDate()
-    let year = date.getFullYear()
+    let [day, month, year] = DateHook()
 
     let data = reactive({
       title: '',
@@ -120,37 +122,12 @@ export default {
       price: '',
       month: month,
       day: day,
-      year: year,
+      year: year
     })
 
-    const showAlert = ShowAlert()
+    const [loading, checkValidate] = InstallmentValidate()
 
-    function addReminder () {
-      if (!data.title || !data.selectCategory || !data.count || !data.price) {
-        showAlert('تمامی فیلد هارا پر کنید', 'info', 'rgb(68, 68, 240)')
-      } else {
-        loading.value = true
-        fetch(
-          'https://thermopay-174f7-default-rtdb.firebaseio.com/installments.json',
-          {
-            method: 'POST',
-            headers: {
-              'content-type': 'application/json'
-            },
-            body: JSON.stringify(data)
-          }
-        )
-          .then(() => {
-            showAlert('یادآوری شما اضافه شد!', 'success', '#22C55E')
-            getInstallments()
-          })
-          .finally(() => {
-            loading.value = false
-            emit('closeModal')
-          })
-      }
-    }
-    return { loading, categories, addReminder, data }
+    return { loading, checkValidate, categories, data, emit }
   }
 }
 </script>
