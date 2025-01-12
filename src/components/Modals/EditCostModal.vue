@@ -68,32 +68,27 @@
   </div>
 </template>
 
-<script>
-import { reactive, ref } from 'vue'
-import LoadingSpinner from './LoadingSpinner.vue'
-import CostValidate from '../hooks/CostValidate'
+<script setup>
+import { reactive } from 'vue'
+import LoadingSpinner from '../LoadingSpinner.vue';
+import CostValidate from '../../hooks/CostValidate';
 
-export default {
-  components: { LoadingSpinner },
-  props: ['cost'],
-  setup (props, { emit }) {
-    let data = reactive({
-      costTitle: props.cost[1].costTitle,
-      price: props.cost[1].price,
-      selectCategory: props.cost[1].selectCategory
-    })
+let props = defineProps(['cost'])
+let emit = defineEmits('')
 
-    let categories = ['اینترنت', 'رفت و آمد', 'تفریح', 'ماشین', 'خانه', 'دیگر']
+let data = reactive({
+  costTitle: props.cost[1].costTitle,
+  price: props.cost[1].price,
+  selectCategory: props.cost[1].selectCategory
+})
 
-    const [loading, checkValidate] = CostValidate(
-      data,
-      emit,
-      `https://thermopay-174f7-default-rtdb.firebaseio.com/costs/${props.cost[0]}.json`,
-      'PATCH',
-      data
-    )
+let categories = ['اینترنت', 'رفت و آمد', 'تفریح', 'ماشین', 'خانه', 'دیگر']
 
-    return { loading, data, categories, checkValidate }
-  }
-}
+const [loading, checkValidate] = CostValidate(
+  data,
+  emit,
+  `https://thermopay-174f7-default-rtdb.firebaseio.com/costs/${props.cost[0]}.json`,
+  'PATCH',
+  data
+)
 </script>

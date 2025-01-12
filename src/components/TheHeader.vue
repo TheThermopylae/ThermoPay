@@ -11,8 +11,8 @@
               >Pay</span
             >
           </h1>
-          <p class="w-full mr-3">
-            مدیریت مالی {{ userData.name }} 
+          <p class="w-full mr-3 text-center my-2 text-xl lg:text-right lg:my-0 lg:text-3xl">
+            مدیریت مالی {{ userData.name }}
           </p>
           <div class="mt-3 w-full">
             <ul

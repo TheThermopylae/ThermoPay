@@ -68,43 +68,36 @@
   </div>
 </template>
 
-<script>
-import { inject, reactive, ref } from 'vue'
-import LoadingSpinner from './LoadingSpinner.vue'
-import DateHook from '../hooks/DateHook'
-import CostValidate from '../hooks/CostValidate'
+<script setup>
+import { inject, reactive } from 'vue'
+import LoadingSpinner from '../LoadingSpinner.vue';
+import DateHook from '../../hooks/DateHook'
+import CostValidate from '../../hooks/CostValidate'
 
-export default {
-  components: {
-    LoadingSpinner
-  },
-  setup (_, { emit }) {
-    let userData = inject('userData')
+let userData = inject('userData')
 
-    const [day, month, year] = DateHook()
+const [day, month, year] = DateHook()
 
-    let data = reactive({
-      costTitle: '',
-      selectCategory: '',
-      price: '',
-      for: userData.value.name,
-      isPurchased: false,
-      year: year,
-      month: month,
-      day: day
-    })
+let emit = defineEmits()
 
-    let categories = ['اینترنت', 'رفت و آمد', 'تفریح', 'ماشین', 'خانه', 'دیگر']
+let data = reactive({
+  costTitle: '',
+  selectCategory: '',
+  price: '',
+  for: userData.value.name,
+  isPurchased: false,
+  year: year,
+  month: month,
+  day: day
+})
 
-    const [loading, checkValidate] = CostValidate(
-      data,
-      emit,
-      `https://thermopay-174f7-default-rtdb.firebaseio.com/costs.json`,
-      'POST',
-      data
-    )
+let categories = ['اینترنت', 'رفت و آمد', 'تفریح', 'ماشین', 'خانه', 'دیگر']
 
-    return { data, categories, loading, checkValidate }
-  }
-}
+const [loading, checkValidate] = CostValidate(
+  data,
+  emit,
+  `https://thermopay-174f7-default-rtdb.firebaseio.com/costs.json`,
+  'POST',
+  data
+)
 </script>

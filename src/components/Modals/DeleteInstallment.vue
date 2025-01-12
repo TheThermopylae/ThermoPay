@@ -1,18 +1,18 @@
 <template>
-  <div class="w-full h-screen fixed top-0 right-0 z-10">
+  <div class="w-full h-full fixed right-0 top-0 z-10">
     <div class="blur w-full h-full" @click="$emit('closeModal')"></div>
     <div
       class="z-10 w-11/12 lg:w-2/5 fixed right-1/2 top-1/2 translate-x-1/2 -translate-y-1/2 bg-base-200 dark:bg-gray-800 rounded-md p-3"
     >
       <div class="text-2xl">
-        <p>حدف کردن مورد هزینه ای</p>
+        <p>حدف کردن یادآوری</p>
       </div>
       <p class="my-3">آیا میخواهید این مورد را حذف کنید؟</p>
       <div class="grid grid-cols-2 gap-5">
         <button
           class="btn btn-primary text-white rounded-full w-full"
           v-if="!loading"
-          @click="acceptDeleteCost"
+          @click="deleteInstallmentReminder"
         >
           حذف کردن
         </button>
@@ -30,41 +30,35 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { inject, ref } from 'vue'
-import LoadingSpinner from './LoadingSpinner.vue'
-import ShowAlert from '../hooks/ShowAlert'
+import LoadingSpinner from '../LoadingSpinner.vue'
+import ShowAlert from '../../hooks/ShowAlert';
 
-export default {
-  components: {
-    LoadingSpinner
-  },
-  props: ['cost'],
-  setup (props, { emit }) {
-    let loading = ref(false)
-    const getCosts = inject('getCosts')
+let loading = ref(false)
+let getInstallments = inject('getInstallments')
 
-    const showAlert = ShowAlert()
+let emit = defineEmits('closeModal')
+let props = defineProps('installment')
 
-    function acceptDeleteCost () {
-      loading.value = true
-      fetch(
-        `https://thermopay-174f7-default-rtdb.firebaseio.com/costs/${props.cost[0]}.json`,
-        {
-          method: 'DELETE'
-        }
-      )
-        .then(() => {
-          showAlert('هزینه شما حذف شد!', 'success', '#22C55E')
-          getCosts()
-        })
-        .finally(() => {
-          loading.value = false
-          emit('closeModal')
-        })
+const showAlert = ShowAlert()
+
+function deleteInstallmentReminder () {
+  loading.value = true
+  fetch(
+    `https://thermopay-174f7-default-rtdb.firebaseio.com/installments/${props.installment[0]}.json`,
+    {
+      method: 'DELETE'
     }
-
-    return { loading, acceptDeleteCost }
-  }
+  )
+    .then(() => {
+      showAlert('یادآوری شما حذف شذ!', 'success', '#22C55E')
+      getInstallments()
+    })
+    .catch(() => showAlert('عدم برقراری ارتباط با سرور', 'error', 'red'))
+    .finally(() => {
+      loading.value = false
+      emit('closeModal')
+    })
 }
 </script>

@@ -2,7 +2,7 @@
   <div class="w-full h-full fixed top-0 right-0 z-10">
     <div class="blur w-full h-full" @click="$emit('closeModal')"></div>
     <div
-      class="z-10 w-11/12 lg:w-2/5 fixed right-1/2 top-1/2 translate-x-1/2 -translate-y-1/2 bg-base-200 dark:bg-gray-800  rounded-md p-3 pt-1"
+      class="z-10 w-11/12 lg:w-2/5 fixed right-1/2 top-1/2 translate-x-1/2 -translate-y-1/2 bg-base-200 dark:bg-gray-800 rounded-md p-3 pt-1"
     >
       <span class="text-2xl cursor-pointer" @click="$emit('closeModal')"
         >x</span
@@ -29,7 +29,8 @@
           <label
             for="income-value"
             class="text-lg after:content-['*'] after:text-red-500"
-            > درآمد</label
+          >
+            درآمد</label
           >
           <input
             type="number"
@@ -57,37 +58,31 @@
   </div>
 </template>
 
-<script>
-import { inject, reactive, ref } from 'vue'
-import LoadingSpinner from './LoadingSpinner.vue'
-import ShowAlert from '../hooks/ShowAlert'
-import IncomeValidate from '../hooks/IncomeValidate'
+<script setup>
+import { reactive } from 'vue'
+import LoadingSpinner from '.././LoadingSpinner.vue'
+import IncomeValidate from '../../hooks/IncomeValidate'
 
-export default {
-  components: {
-    LoadingSpinner
-  },
-  props: ['income'],
-  setup (props, { emit }) {
-    let data = reactive({
-      year: props.income[1].year,
-      value: props.income[1].value
-    })
+let props = defineProps(['income'])
 
-    const [checkValdiate, loading] = IncomeValidate()
+let data = reactive({
+  year: props.income[1].year,
+  value: props.income[1].value
+})
 
-    function updateIncomeFunc () {
-      checkValdiate(
-        `https://thermopay-174f7-default-rtdb.firebaseio.com/incomes/${props.income[0]}.json`,
-        data,
-        'PATCH',
-        { year: data.year, value: Number(data.value) },
-        'ویرایش درآمد شما با موفقیت انجام شد!',
-        'عدم برقراری ارتباط با سرور!',
-        emit
-      )
-    }
-    return { loading, updateIncomeFunc, data }
-  }
+let emit = defineEmits('')
+
+const [checkValdiate, loading] = IncomeValidate()
+
+function updateIncomeFunc () {
+  checkValdiate(
+    `https://thermopay-174f7-default-rtdb.firebaseio.com/incomes/${props.income[0]}.json`,
+    data,
+    'PATCH',
+    { year: data.year, value: Number(data.value) },
+    'ویرایش درآمد شما با موفقیت انجام شد!',
+    'عدم برقراری ارتباط با سرور!',
+    emit
+  )
 }
 </script>

@@ -100,20 +100,17 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { reactive } from 'vue'
-import LoadingSpinner from './LoadingSpinner.vue'
-import DateHook from '../hooks/DateHook'
-import InstallmentValidate from '../hooks/InstallmentValidate'
+import LoadingSpinner from '.././LoadingSpinner.vue'
+import DateHook from '../../hooks/DateHook';
+import InstallmentValidate from '../../hooks/InstallmentValidate';
 
-export default {
-  components: {
-    LoadingSpinner
-  },
-  setup (_, { emit }) {
     let categories = ['خانه', 'ماشین', 'وسایل خانه', 'وسایل الکتریکی', 'دیگر']
 
     let [day, month, year] = DateHook()
+
+    let emit = defineEmits()
 
     let data = reactive({
       title: '',
@@ -126,8 +123,4 @@ export default {
     })
 
     const [loading, checkValidate] = InstallmentValidate()
-
-    return { loading, checkValidate, categories, data, emit }
-  }
-}
 </script>

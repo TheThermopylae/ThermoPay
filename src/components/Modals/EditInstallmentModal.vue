@@ -100,29 +100,22 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { reactive } from 'vue'
-import LoadingSpinner from './LoadingSpinner.vue'
-import InstallmentValidate from '../hooks/InstallmentValidate'
+import LoadingSpinner from '.././LoadingSpinner.vue'
+import InstallmentValidate from '../../hooks/InstallmentValidate';
 
-export default {
-  components: {
-    LoadingSpinner
-  },
-  props: ['installment'],
-  setup (props, { emit }) {
-    let categories = ['خانه', 'ماشین', 'وسایل خانه', 'وسایل الکتریکی', 'دیگر']
+let categories = ['خانه', 'ماشین', 'وسایل خانه', 'وسایل الکتریکی', 'دیگر']
 
-    let data = reactive({
-      title: props.installment[1].title,
-      selectCategory: props.installment[1].selectCategory,
-      count: props.installment[1].count,
-      price: props.installment[1].price
-    })
+let emit = defineEmits()
+let props = defineProps(['installment'])
 
-    const [loading, checkValidate] = InstallmentValidate()
+let data = reactive({
+  title: props.installment[1].title,
+  selectCategory: props.installment[1].selectCategory,
+  count: props.installment[1].count,
+  price: props.installment[1].price
+})
 
-    return { loading, categories, checkValidate, data, emit }
-  }
-}
+const [loading, checkValidate] = InstallmentValidate()
 </script>
