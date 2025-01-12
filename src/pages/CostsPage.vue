@@ -140,18 +140,14 @@ import RemoveCostsModal from '../components/Modals/RemoveCostsModal.vue'
 let userData = inject('userData')
 let costs = inject('costs')
 
-const [userIncomes] = FilterIncomes()
-
 let searchedCosts = ref('')
 
 let filterCosts = computed(() => {
   if (!searchedCosts.value) {
-    return costs.value.filter(cost => cost[1].for == userData.value.name)
+    return costs.value
   } else {
-    return costs.value.filter(
-      cost =>
-        cost[1].for == userData.value.name &&
-        cost[1].costTitle.includes(searchedCosts.value)
+    return costs.value.filter(cost =>
+      cost[1].costTitle.includes(searchedCosts.value)
     )
   }
 })
