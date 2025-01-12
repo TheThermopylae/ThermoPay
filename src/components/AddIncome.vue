@@ -31,16 +31,16 @@
       />
     </div>
     <div>
-      <button @click="addIncome" class="btn btn-primary w-28" v-if="!loading">
+      <button @click="addIncome" class="btn btn-primary w-28 ml-4" v-if="!loading">
         اضافه کردن
       </button>
       <button class="btn btn-primary w-28" v-else>
         <LoadingSpinner class="w-7 h-7"></LoadingSpinner>
       </button>
+      <button @click="$emit('showRemoveAllIncomesModal')" class="btn bg-red-500 hover:bg-red-600 text-white">
+        حذف تمامی درآمد ها
+      </button>
     </div>
-    <button @click="$emit('showRemoveAllIncomesModal')" class="btn bg-red-500 hover:bg-red-600 text-white">
-      حذف تمامی درآمد ها
-    </button>
   </div>
 </template>
 

@@ -7,7 +7,7 @@
       @openAddCostModal="showAddCostModal = true"
       @openRemoveAllCosts="showRemoveCosts = true"
     ></NowIncome>
-    <div class="text-xl mt-5 leading-10 flex gap-3">
+    <div class="text-xl mt-5 leading-10 flex gap-3" v-if="userData.length > 0">
       <div class="flex gap-1">
         <p class="">هزینه نهایی شما :</p>
         <span class="text-green-500">{{ finalCost.toLocaleString() }}$</span>
@@ -140,7 +140,7 @@ import RemoveCostsModal from '../components/Modals/RemoveCostsModal.vue'
 let userData = inject('userData')
 let costs = inject('costs')
 
-const [, lastYearIncome] = FilterIncomes()
+const [userIncomes] = FilterIncomes()
 
 let searchedCosts = ref('')
 
